@@ -125,6 +125,7 @@ var emailSubject = '';
 
 var STEPS = [
   {k:'assetNo',     label:'Asset number',        t:'text'},
+  {k:'location',    label:'Location',           t:'text',   help:'Pad name, yard, or wherever it is sitting.'},
   {k:'lastService', label:'Last hour service',   t:'number', help:'Hour reading at the last service.'},
   {k:'nextService', label:'Next hour service',   t:'number', help:'Hour reading the next service is due at.'},
   {k:'currentHrs',  label:'Current hours',       t:'number', help:'What the meter reads right now.'},
@@ -176,6 +177,7 @@ function render(){
   else if(step.t === 'summary'){
     var rows = [
       ['Asset No',          answers.assetNo],
+      ['Location',          answers.location],
       ['Last Hour Service', answers.lastService],
       ['Next Hour Service', answers.nextService],
       ['Current Hours',     answers.currentHrs],
@@ -321,6 +323,7 @@ function finish(){
     '### HOURSLOG START ###',
     'TIMESTAMP: ' + stamp,
     'ASSET: '     + (answers.assetNo || ''),
+    'LOCATION: '  + (answers.location || ''),
     'LASTSVC: '   + (answers.lastService || ''),
     'NEXTSVC: '   + (answers.nextService || ''),
     'CURRENT: '   + (answers.currentHrs || ''),
