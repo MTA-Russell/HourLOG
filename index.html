@@ -8,373 +8,109 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Hours Log">
-<link rel="manifest" href='data:application/manifest+json,{"name":"MagTec Engine Hours Log","short_name":"Hours Log","start_url":".","display":"standalone","background_color":"%2314181c","theme_color":"%2314181c"}'>
 <title>MagTec Engine Hours Log</title>
 <style>
-  :root{
-    --bg:#14181c; --panel:#1c2127; --panel-line:#2b323b;
-    --text:#eef1f4; --sub:#8d98a3; --amber:#f5a623;
-    --amber-dim:#3a2f14; --danger:#e5533d; --ok:#3ba776;
-  }
+  :root{--bg:#14181c;--panel:#1c2127;--panel-line:#2b323b;--text:#eef1f4;--sub:#8d98a3;--amber:#f5a623;--amber-dim:#3a2f14;}
   *{box-sizing:border-box;}
   html,body{height:100%;}
-  body{
-    margin:0; background:var(--bg); color:var(--text);
-    font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-    display:flex; align-items:center; justify-content:center;
-    min-height:100vh; padding:20px;
-  }
-  .card{
-    width:100%; max-width:520px; background:var(--panel);
-    border:1px solid var(--panel-line); border-radius:10px; overflow:hidden;
-  }
-  .head{ padding:18px 22px 14px; border-bottom:1px solid var(--panel-line); }
-  .head .tag{
-    font-size:11px; letter-spacing:.14em; text-transform:uppercase;
-    color:var(--amber); font-weight:700;
-  }
-  .head h1{ margin:4px 0 0; font-size:19px; font-weight:600; }
-  .progress-track{ height:4px; background:var(--panel-line); width:100%; }
-  .progress-fill{ height:100%; background:var(--amber); width:0%; transition:width .25s ease; }
-  .step-count{ padding:10px 22px 0; font-size:12px; color:var(--sub); font-variant-numeric:tabular-nums; }
-  .body{
-    padding:22px; min-height:220px;
-    display:flex; flex-direction:column; justify-content:center;
-  }
-  .q-label{ font-size:16px; font-weight:600; margin-bottom:4px; line-height:1.35; }
-  .q-help{ font-size:13px; color:var(--sub); margin-bottom:16px; line-height:1.4; }
-  input[type=text], input[type=number], textarea{
-    width:100%; background:var(--bg); border:1px solid var(--panel-line);
-    color:var(--text); font-size:16px; padding:13px 14px;
-    border-radius:7px; font-family:inherit; outline:none;
-  }
-  input:focus, textarea:focus{ border-color:var(--amber); }
-  textarea{ min-height:100px; resize:vertical; }
-  .yn-row{ display:flex; gap:12px; }
-  .yn-btn{
-    flex:1; padding:15px; border-radius:7px; border:1px solid var(--panel-line);
-    background:var(--bg); color:var(--text); font-size:15px; font-weight:600;
-    cursor:pointer; font-family:inherit;
-  }
-  .yn-btn.primary{ background:var(--amber); color:#20180a; border-color:var(--amber); }
-  .foot{ display:flex; gap:10px; padding:16px 22px 22px; border-top:1px solid var(--panel-line); }
-  button.nav{
-    border:none; border-radius:7px; padding:14px 18px;
-    font-size:15px; font-weight:600; cursor:pointer; font-family:inherit;
-  }
-  .btn-back{ background:transparent; color:var(--sub); border:1px solid var(--panel-line); }
-  .btn-next{ background:var(--amber); color:#20180a; flex:1; }
-  .section-note{
-    display:inline-block; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
-    color:var(--amber); background:var(--amber-dim); padding:3px 8px;
-    border-radius:4px; margin-bottom:10px;
-  }
-  .summary-list{ font-size:13px; line-height:1.7; max-height:320px; overflow-y:auto; }
-  .summary-list .row{
-    display:flex; justify-content:space-between; gap:10px;
-    border-bottom:1px solid var(--panel-line); padding:6px 0;
-  }
-  .summary-list .k{ color:var(--sub); }
-  .summary-list .v{ text-align:right; font-weight:500; }
-  .defect-count{
-    font-size:12px; color:var(--sub); margin-bottom:14px;
-    border-left:2px solid var(--amber); padding-left:10px;
-  }
-  .opt-list{ display:flex; flex-direction:column; gap:10px; margin-bottom:16px; }
-  .opt-list .yn-btn{ display:block; text-align:left; padding:16px; }
-  .opt-title{ display:block; font-size:18px; font-weight:800; letter-spacing:.03em; }
-  .opt-sub{ display:block; font-size:12.5px; font-weight:400; color:var(--sub); margin-top:3px; line-height:1.35; }
-  .yn-btn.primary .opt-sub{ color:#5c4715; }
-  .hidden{ display:none !important; }
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+  .card{width:100%;max-width:480px;background:var(--panel);border:1px solid var(--panel-line);border-radius:10px;overflow:hidden;}
+  .head{padding:18px 22px 14px;border-bottom:1px solid var(--panel-line);}
+  .tag{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:700;}
+  h1{margin:4px 0 0;font-size:19px;font-weight:600;}
+  .bar{height:4px;background:var(--panel-line);}
+  .fill{height:100%;background:var(--amber);transition:width .25s;}
+  .ct{padding:10px 22px 0;font-size:12px;color:var(--sub);}
+  .body{padding:22px;min-height:200px;display:flex;flex-direction:column;justify-content:center;}
+  .lbl{font-size:16px;font-weight:600;margin-bottom:16px;}
+  input{width:100%;background:var(--bg);border:1px solid var(--panel-line);color:var(--text);font-size:17px;padding:14px;border-radius:7px;font-family:inherit;outline:none;}
+  input:focus{border-color:var(--amber);}
+  .foot{display:flex;gap:10px;padding:16px 22px 22px;border-top:1px solid var(--panel-line);}
+  .nav{border:none;border-radius:7px;padding:14px 18px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;}
+  .back{background:transparent;color:var(--sub);border:1px solid var(--panel-line);}
+  .next{background:var(--amber);color:#20180a;flex:1;}
+  .opt{display:flex;flex-direction:column;gap:10px;}
+  .btn{flex:1;padding:16px;border-radius:7px;border:1px solid var(--panel-line);background:var(--bg);color:var(--text);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;text-align:left;}
+  .btn.amber{background:var(--amber);color:#20180a;border-color:var(--amber);}
+  .t{display:block;font-size:18px;font-weight:800;}
+  .s{display:block;font-size:12px;color:var(--sub);margin-top:3px;}
+  .amber .s{color:#5c4715;}
 </style>
 </head>
 <body>
-
 <div class="card">
-  <div class="head">
-    <div class="tag">MagTec Alaska</div>
-    <h1>Engine Hours Log</h1>
-  </div>
-  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-  <div class="step-count" id="stepCount"></div>
-
-  <div class="body" id="body">
-    <div class="q-label">This page needs a real browser</div>
-    <div class="q-help">Open it in Safari or Chrome.</div>
-  </div>
-
-  <div class="foot">
-    <button class="nav btn-back" id="backBtn">Back</button>
-    <button class="nav btn-next" id="nextBtn">Next</button>
+  <div class="head"><div class="tag">MagTec Alaska</div><h1>Engine Hours Log</h1></div>
+  <div class="bar"><div class="fill" id="fill" style="width:0%"></div></div>
+  <div class="ct" id="ct"></div>
+  <div class="body" id="body"></div>
+  <div class="foot" id="foot">
+    <button class="nav back" id="backBtn">Back</button>
+    <button class="nav next" id="nextBtn">Next</button>
   </div>
 </div>
-
 <script>
 (function(){
 "use strict";
-
-window.addEventListener('error', function(e){
-  var b = document.getElementById('body');
-  if(b) b.innerHTML = '<div class="q-label">Something broke</div><div class="q-help">' + String(e.message) + '</div>';
-});
-
-var answers = {};
-var defects = [];
-var emailBody = '';
-var emailSubject = '';
-
-var STEPS = [
-  {k:'assetNo',     label:'Asset number',        t:'text'},
-  {k:'location',    label:'Location',           t:'text',   help:'Pad name, yard, or wherever it is sitting.'},
-  {k:'lastService', label:'Last hour service',   t:'number', help:'Hour reading at the last service.'},
-  {k:'nextService', label:'Next hour service',   t:'number', help:'Hour reading the next service is due at.'},
-  {k:'currentHrs',  label:'Current hours',       t:'number', help:'What the meter reads right now.'},
-  {k:'__defects',   label:'Defects',             t:'defects'},
-  {k:'__summary',   label:'Review',              t:'summary'}
+var MAIL_TO='nsrentals@magtecalaska.com,nsshop@magtecalaska.com';
+var STEPS=[
+  {k:'asset',   label:'Asset number',  t:'text'},
+  {k:'current', label:'Current hours', t:'number'}
 ];
-
-var i = 0;
-var defectStage = 'ask';   // ask -> enter -> more
-
-var bodyEl     = document.getElementById('body');
-var nextBtn    = document.getElementById('nextBtn');
-var backBtn    = document.getElementById('backBtn');
-var progressEl = document.getElementById('progressFill');
-var countEl    = document.getElementById('stepCount');
-
-function esc(v){
-  return String(v == null ? '' : v)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
+var a={}, i=0;
+var bodyEl=document.getElementById('body');
+var footEl=document.getElementById('foot');
+var nextBtn=document.getElementById('nextBtn');
+var backBtn=document.getElementById('backBtn');
+function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function chrome(){
-  var total = STEPS.length + defects.length;
-  progressEl.style.width = Math.min(100, Math.round((i/total)*100)) + '%';
-  countEl.textContent = 'Step ' + (i+1) + ' of ' + total;
-  backBtn.style.visibility = (i === 0) ? 'hidden' : 'visible';
+  document.getElementById('fill').style.width=Math.round(((i)/STEPS.length)*100)+'%';
+  document.getElementById('ct').textContent='Step '+(i+1)+' of '+STEPS.length;
+  backBtn.style.visibility=i===0?'hidden':'visible';
 }
-
 function render(){
-  var step = STEPS[i];
   chrome();
-  nextBtn.textContent = 'Next';
-  nextBtn.classList.remove('hidden');
-  backBtn.classList.remove('hidden');
-
-  var html = '';
-
-  if(step.t === 'text' || step.t === 'number'){
-    html = '<div class="q-label">' + esc(step.label) + '</div>'
-         + (step.help ? '<div class="q-help">' + esc(step.help) + '</div>' : '')
-         + '<input type="' + step.t + '" id="input" value="' + esc(answers[step.k]) + '">';
-  }
-
-  else if(step.t === 'defects'){
-    html = defectsHtml();
-  }
-
-  else if(step.t === 'summary'){
-    var rows = [
-      ['Asset No',          answers.assetNo],
-      ['Location',          answers.location],
-      ['Last Hour Service', answers.lastService],
-      ['Next Hour Service', answers.nextService],
-      ['Current Hours',     answers.currentHrs],
-      ['Defects Logged',    defects.length]
-    ];
-    html = '<div class="section-note">Ready to send</div>'
-         + '<div class="q-help">Check it over, then send.</div>'
-         + '<div class="summary-list">';
-    for(var r = 0; r < rows.length; r++){
-      var v = rows[r][1];
-      html += '<div class="row"><div class="k">' + esc(rows[r][0]) + '</div>'
-            + '<div class="v">' + ((v === undefined || v === '' || v === null) ? '&mdash;' : esc(v)) + '</div></div>';
-    }
-    for(var d = 0; d < defects.length; d++){
-      html += '<div class="row"><div class="k">Defect ' + (d+1) + '</div>'
-            + '<div class="v">' + esc(defects[d]) + '</div></div>';
-    }
-    html += '</div>';
-    nextBtn.textContent = 'Finish';
-  }
-
-  bodyEl.innerHTML = html;
-
-  var inp = document.getElementById('input') || document.getElementById('defectInput');
-  if(inp){ try { inp.focus(); } catch(e){} }
+  footEl.style.display='';
+  var step=STEPS[i];
+  bodyEl.innerHTML='<div class="lbl">'+esc(step.label)+'</div>'
+    +'<input type="'+step.t+'" inputmode="'+(step.t==='number'?'numeric':'text')+'" id="inp" value="'+esc(a[step.k])+'">';
+  setTimeout(function(){var e=document.getElementById('inp');if(e)e.focus();},50);
 }
-
-function defectsHtml(){
-  var head = defects.length
-    ? '<div class="defect-count">' + defects.length + ' defect' + (defects.length>1?'s':'') + ' logged</div>'
-    : '';
-
-  if(defectStage === 'ask'){
-    return head
-      + '<div class="q-label">Any known defect or issue?</div>'
-      + '<div class="yn-row">'
-      + '<button type="button" class="yn-btn" data-action="dyes">Yes</button>'
-      + '<button type="button" class="yn-btn" data-action="dno">No</button>'
-      + '</div>';
-  }
-
-  if(defectStage === 'more'){
-    return head
-      + '<div class="q-label">Any others?</div>'
-      + '<div class="yn-row">'
-      + '<button type="button" class="yn-btn" data-action="dyes">Yes</button>'
-      + '<button type="button" class="yn-btn" data-action="dno">No</button>'
-      + '</div>';
-  }
-
-  return head
-    + '<div class="q-label">Defect ' + (defects.length + 1) + '</div>'
-    + '<div class="q-help">Describe it.</div>'
-    + '<textarea id="defectInput"></textarea>';
-}
-
-function saveInput(){
-  var el = document.getElementById('input');
-  if(el) answers[STEPS[i].k] = el.value;
-}
-
+function save(){var e=document.getElementById('inp');if(e)a[STEPS[i].k]=e.value;}
 function forward(){
-  var step = STEPS[i];
-
-  if(step.t === 'summary'){ finish(); return; }
-
-  if(step.t === 'defects'){
-    if(defectStage === 'enter'){
-      var el = document.getElementById('defectInput');
-      if(el && el.value.trim()){
-        defects.push(el.value.trim());
-        defectStage = 'more';
-        render();
-      }
-    }
-    return;
-  }
-
-  saveInput();
-  i++;
-  render();
+  save();
+  if(i<STEPS.length-1){i++;render();}
+  else{finish();}
 }
-
-function back(){
-  var step = STEPS[i];
-
-  if(step.t === 'defects'){
-    if(defectStage === 'enter' || defectStage === 'more'){
-      if(defectStage === 'more' && defects.length) defects.pop();
-      defectStage = defects.length ? 'more' : 'ask';
-      if(defectStage === 'ask' && !defects.length){ i--; render(); return; }
-      render();
-      return;
-    }
-  }
-
-  if(i === 0) return;
-  var t = STEPS[i].t;
-  if(t === 'text' || t === 'number') saveInput();
-  i--;
-  if(STEPS[i].t === 'defects') defectStage = defects.length ? 'more' : 'ask';
-  render();
-}
-
-document.addEventListener('click', function(ev){
-  var btn = ev.target.closest ? ev.target.closest('button') : null;
-  if(!btn) return;
-  var a = btn.getAttribute('data-action');
-  try {
-    if(btn.id === 'nextBtn'){ forward(); return; }
-    if(btn.id === 'backBtn'){ back(); return; }
-    if(a === 'dyes'){ defectStage = 'enter'; render(); return; }
-    if(a === 'dno'){  i++; render(); return; }
-    if(a === 'mailto'){ doMailto(); return; }
-    if(a === 'restart'){ doRestart(); return; }
-  } catch(err){
-    bodyEl.innerHTML = '<div class="q-label">Something broke</div><div class="q-help">' + esc(err.message) + '</div>';
-  }
+function back(){if(i===0)return;save();i--;render();}
+document.addEventListener('click',function(ev){
+  var btn=ev.target.closest?ev.target.closest('button'):null;
+  if(!btn)return;
+  var act=btn.getAttribute('data-a');
+  if(btn.id==='nextBtn'){forward();return;}
+  if(btn.id==='backBtn'){back();return;}
+  if(act==='email'){doEmail();return;}
+  if(act==='over'){a={};i=0;render();return;}
 });
-
-document.addEventListener('keydown', function(ev){
-  if(ev.key !== 'Enter') return;
-  if(ev.target && ev.target.id === 'input'){
-    ev.preventDefault();
-    forward();
-  }
+document.addEventListener('keydown',function(ev){
+  if(ev.key==='Enter'&&ev.target&&ev.target.id==='inp'){ev.preventDefault();forward();}
 });
-
 function finish(){
-  var now = new Date();
-  var stamp = now.getFullYear() + '-'
-            + String(now.getMonth()+1).padStart(2,'0') + '-'
-            + String(now.getDate()).padStart(2,'0') + ' '
-            + String(now.getHours()).padStart(2,'0') + ':'
-            + String(now.getMinutes()).padStart(2,'0');
-
-  emailSubject = 'HOURSLOG|' + (answers.assetNo || '');
-
-  // Fixed KEY: VALUE lines. Power Automate parses on these.
-  var lines = [
-    'SEND TO: ' + MAIL_TO,
-    '',
-    '### HOURSLOG START ###',
-    'TIMESTAMP: ' + stamp,
-    'ASSET: '     + (answers.assetNo || ''),
-    'LOCATION: '  + (answers.location || ''),
-    'LASTSVC: '   + (answers.lastService || ''),
-    'NEXTSVC: '   + (answers.nextService || ''),
-    'CURRENT: '   + (answers.currentHrs || ''),
-    'DEFECTCOUNT: ' + defects.length
-  ];
-  for(var n = 0; n < 10; n++){
-    lines.push('DEFECT' + (n+1) + ': ' + (defects[n] || ''));
-  }
-  lines.push('### HOURSLOG END ###');
-
-  emailBody = lines.join('\n');
-
-  nextBtn.classList.add('hidden');
-  backBtn.classList.add('hidden');
-
-  bodyEl.innerHTML =
-      '<div class="section-note">Ready to send</div>'
-    + '<div class="q-help" style="margin-bottom:16px;">Do not edit the message. The spreadsheet reads it automatically.</div>'
-    + '<div class="opt-list">'
-    +   '<button type="button" class="yn-btn primary" data-action="mailto">'
-    +     '<span class="opt-title">SEND</span>'
-    +     '<span class="opt-sub">Opens the email filled in and addressed. Just hit send.</span>'
-    +   '</button>'
-    +   '<button type="button" class="yn-btn" data-action="restart">'
-    +     '<span class="opt-title">START OVER</span>'
-    +     '<span class="opt-sub">Clear it and log another asset.</span>'
-    +   '</button>'
-    + '</div>';
+  var body='Asset: '+(a.asset||'')+'\nCurrent Hours: '+(a.current||'');
+  var subject='Hours Log - Asset '+(a.asset||'');
+  window._eb=body; window._es=subject;
+  footEl.style.display='none';
+  document.getElementById('fill').style.width='100%';
+  document.getElementById('ct').textContent='';
+  bodyEl.innerHTML='<div class="opt">'
+    +'<button class="btn amber" data-a="email"><span class="t">OPEN EMAIL</span><span class="s">Opens with addresses and details filled in.</span></button>'
+    +'<button class="btn" data-a="over"><span class="t">START OVER</span><span class="s">Log another asset.</span></button>'
+    +'</div>';
 }
-
-function doRestart(){
-  answers = {};
-  defects = [];
-  i = 0;
-  defectStage = 'ask';
-  render();
+function doEmail(){
+  window.location.href='mailto:'+MAIL_TO+'?subject='+encodeURIComponent(window._es)+'&body='+encodeURIComponent(window._eb);
 }
-
-function doMailto(){
-  window.location.href = 'mailto:' + MAIL_TO
-    + '?subject=' + encodeURIComponent(emailSubject)
-    + '&body=' + encodeURIComponent(emailBody);
-}
-
-// ---- change this to the mailbox the flow watches ----
-var MAIL_TO = 'nsrentals@magtecalaska.com';
-
 render();
-
 })();
 </script>
-
 </body>
 </html>
