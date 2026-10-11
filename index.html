@@ -57,7 +57,8 @@ var MAIL_TO='nsrentals@magtecalaska.com,nsshop@magtecalaska.com';
 var STEPS=[
   {k:'asset',   label:'Asset number',  t:'text'},
   {k:'current', label:'Current hours', t:'number'},
-  {k:'lastService', label:'Last service Performed?', t:'text', help:'found on service sticker please indicate hours and type if applicable'}
+  {k:'lastService', label:'Last service Performed?', t:'text', help:'found on service sticker please indicate hours and type if applicable'},
+  {k:'nextService', label:'Next service hours', t:'number'}
 ];
 var a={}, i=0;
 var bodyEl=document.getElementById('body');
@@ -99,7 +100,7 @@ document.addEventListener('keydown',function(ev){
   if(ev.key==='Enter'&&ev.target&&ev.target.id==='inp'){ev.preventDefault();forward();}
 });
 function finish(){
-  var body='Asset: '+(a.asset||'')+'\nCurrent Hours: '+(a.current||'')+'\nLast Service Performed: '+(a.lastService||'');
+  var body='Asset: '+(a.asset||'')+'\nCurrent Hours: '+(a.current||'')+'\nLast Service Performed: '+(a.lastService||'')+'\nNext Service Hours: '+(a.nextService||'');
   var subject='Hours Log - Asset '+(a.asset||'');
   window._eb=body; window._es=subject;
   footEl.style.display='none';
