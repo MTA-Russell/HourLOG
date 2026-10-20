@@ -1,121 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#14181c">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Hours Log">
-<title>MagTec Engine Hours Log</title>
-<style>
-  :root{--bg:#14181c;--panel:#1c2127;--panel-line:#2b323b;--text:#eef1f4;--sub:#8d98a3;--amber:#f5a623;--amber-dim:#3a2f14;}
-  *{box-sizing:border-box;}
-  html,body{height:100%;}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
-  .card{width:100%;max-width:480px;background:var(--panel);border:1px solid var(--panel-line);border-radius:10px;overflow:hidden;}
-  .head{padding:18px 22px 14px;border-bottom:1px solid var(--panel-line);}
-  .tag{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:700;}
-  h1{margin:4px 0 0;font-size:19px;font-weight:600;}
-  .bar{height:4px;background:var(--panel-line);}
-  .fill{height:100%;background:var(--amber);transition:width .25s;}
-  .ct{padding:10px 22px 0;font-size:12px;color:var(--sub);}
-  .body{padding:22px;min-height:200px;display:flex;flex-direction:column;justify-content:center;}
-  .lbl{font-size:16px;font-weight:600;margin-bottom:16px;}
-  .lbl.has-help{margin-bottom:4px;}
-  .help{font-size:12px;color:var(--sub);margin-bottom:16px;line-height:1.4;}
-  input{width:100%;background:var(--bg);border:1px solid var(--panel-line);color:var(--text);font-size:17px;padding:14px;border-radius:7px;font-family:inherit;outline:none;}
-  input:focus{border-color:var(--amber);}
-  .foot{display:flex;gap:10px;padding:16px 22px 22px;border-top:1px solid var(--panel-line);}
-  .nav{border:none;border-radius:7px;padding:14px 18px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;}
-  .back{background:transparent;color:var(--sub);border:1px solid var(--panel-line);}
-  .next{background:var(--amber);color:#20180a;flex:1;}
-  .opt{display:flex;flex-direction:column;gap:10px;}
-  .btn{flex:1;padding:16px;border-radius:7px;border:1px solid var(--panel-line);background:var(--bg);color:var(--text);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;text-align:left;}
-  .btn.amber{background:var(--amber);color:#20180a;border-color:var(--amber);}
-  .t{display:block;font-size:18px;font-weight:800;}
-  .s{display:block;font-size:12px;color:var(--sub);margin-top:3px;}
-  .amber .s{color:#5c4715;}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MagTec Employee Portal</title>
+  <meta http-equiv="refresh" content="0; url=https://mta-russell.github.io/Emp/">
+  <link rel="canonical" href="https://mta-russell.github.io/Emp/">
+  <script>window.location.replace('https://mta-russell.github.io/Emp/');</script>
+  <style>
+    body{margin:0;min-height:100vh;display:grid;place-items:center;background:#14181c;color:#eef1f4;font:18px 'Segoe UI',Arial,sans-serif}
+    a{color:#f5a623;padding:24px;text-align:center}
+  </style>
 </head>
 <body>
-<div class="card">
-  <div class="head"><div class="tag">MagTec Alaska</div><h1>Engine Hours Log</h1></div>
-  <div class="bar"><div class="fill" id="fill" style="width:0%"></div></div>
-  <div class="ct" id="ct"></div>
-  <div class="body" id="body"></div>
-  <div class="foot" id="foot">
-    <button class="nav back" id="backBtn">Back</button>
-    <button class="nav next" id="nextBtn">Next</button>
-  </div>
-</div>
-<script>
-(function(){
-"use strict";
-var MAIL_TO='nsrentals@magtecalaska.com,nsshop@magtecalaska.com';
-var STEPS=[
-  {k:'asset',   label:'Asset number',  t:'text'},
-  {k:'current', label:'Current hours', t:'number'},
-  {k:'lastService', label:'Last service Performed?', t:'text', help:'found on service sticker please indicate hours and type if applicable'},
-  {k:'nextService', label:'Next service hours', t:'number'}
-];
-var a={}, i=0;
-var bodyEl=document.getElementById('body');
-var footEl=document.getElementById('foot');
-var nextBtn=document.getElementById('nextBtn');
-var backBtn=document.getElementById('backBtn');
-function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function chrome(){
-  document.getElementById('fill').style.width=Math.round(((i)/STEPS.length)*100)+'%';
-  document.getElementById('ct').textContent='Step '+(i+1)+' of '+STEPS.length;
-  backBtn.style.visibility=i===0?'hidden':'visible';
-}
-function render(){
-  chrome();
-  footEl.style.display='';
-  var step=STEPS[i];
-  bodyEl.innerHTML='<div class="lbl'+(step.help?' has-help':'')+'">'+esc(step.label)+'</div>'
-    +(step.help?'<div class="help">'+esc(step.help)+'</div>':'')
-    +'<input type="'+step.t+'" inputmode="'+(step.t==='number'?'numeric':'text')+'" id="inp" value="'+esc(a[step.k])+'">';
-  setTimeout(function(){var e=document.getElementById('inp');if(e)e.focus();},50);
-}
-function save(){var e=document.getElementById('inp');if(e)a[STEPS[i].k]=e.value;}
-function forward(){
-  save();
-  if(i<STEPS.length-1){i++;render();}
-  else{finish();}
-}
-function back(){if(i===0)return;save();i--;render();}
-document.addEventListener('click',function(ev){
-  var btn=ev.target.closest?ev.target.closest('button'):null;
-  if(!btn)return;
-  var act=btn.getAttribute('data-a');
-  if(btn.id==='nextBtn'){forward();return;}
-  if(btn.id==='backBtn'){back();return;}
-  if(act==='email'){doEmail();return;}
-  if(act==='over'){a={};i=0;render();return;}
-});
-document.addEventListener('keydown',function(ev){
-  if(ev.key==='Enter'&&ev.target&&ev.target.id==='inp'){ev.preventDefault();forward();}
-});
-function finish(){
-  var body='Asset: '+(a.asset||'')+'\nCurrent Hours: '+(a.current||'')+'\nLast Service Performed: '+(a.lastService||'')+'\nNext Service Hours: '+(a.nextService||'');
-  var subject='Hours Log - Asset '+(a.asset||'');
-  window._eb=body; window._es=subject;
-  footEl.style.display='none';
-  document.getElementById('fill').style.width='100%';
-  document.getElementById('ct').textContent='';
-  bodyEl.innerHTML='<div class="opt">'
-    +'<button class="btn amber" data-a="email"><span class="t">OPEN EMAIL</span><span class="s">Opens with addresses and details filled in.</span></button>'
-    +'<button class="btn" data-a="over"><span class="t">START OVER</span><span class="s">Log another asset.</span></button>'
-    +'</div>';
-}
-function doEmail(){
-  window.location.href='mailto:'+MAIL_TO+'?subject='+encodeURIComponent(window._es)+'&body='+encodeURIComponent(window._eb);
-}
-render();
-})();
-</script>
+  <a href="https://mta-russell.github.io/Emp/">Open MagTec Employee Portal</a>
 </body>
 </html>
